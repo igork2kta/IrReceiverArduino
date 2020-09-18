@@ -396,6 +396,7 @@
             this.MinimizeBox = false;
             this.Name = "Form2";
             this.Text = "Configurar Comandos";
+            this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

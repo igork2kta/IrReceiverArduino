@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace IrReceiver {
@@ -92,7 +93,10 @@ namespace IrReceiver {
         //Recebe o valor na porta serial
         private void serialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e) {
             recebido = Convert.ToString(serialPort1.ReadExisting());
-            BeginInvoke((MethodInvoker)(() => { janela.Close(); }));
+            
+            if (Application.OpenForms.OfType<Form3>().Count()>0) {
+                BeginInvoke((MethodInvoker)(() => { janela.Close(); }));
+            }
         }
 
         private void Form2_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
@@ -102,6 +106,9 @@ namespace IrReceiver {
         private void label5_Click(object sender, EventArgs e) {
 
         }
-        
+
+        private void Form2_Load(object sender, EventArgs e) {
+
+        }
     }
 }
