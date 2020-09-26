@@ -131,7 +131,6 @@
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 8;
             this.label3.Text = "Status:";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // lblStatus
             // 

@@ -23,7 +23,7 @@ namespace IrReceiver {
         //Variável para verificação de dispositivo
         bool connected = false;
         //Array que armazena os comandos
-        string[] comando = new string[13];
+        string[] comando = new string[14];
 
         public Form1() {
             InitializeComponent();
@@ -139,43 +139,56 @@ namespace IrReceiver {
             }
             else{
                 if (recebido == comando[0]) {
-                    teclado.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VOLUME_UP);
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP);
                 }
                 else if (recebido == comando[1]) {
-                    teclado.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VOLUME_DOWN);
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.VOLUME_DOWN);
                 }
                 else if (recebido == comando[2]) {
-                    teclado.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VOLUME_MUTE);
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.VOLUME_MUTE);
                 }
                 else if (recebido == comando[3]) {
-                    teclado.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.RIGHT);
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.RIGHT);
                 }
                 else if (recebido == comando[4]) {
-                    teclado.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.LEFT);
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.LEFT);
                 }
                 else if (recebido == comando[5]) {
-                    teclado.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.UP);
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.UP);
                 }
                 else if (recebido == comando[6]) {
-                    teclado.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.DOWN);
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.DOWN);
                 }
                 else if (recebido == comando[7]) {
-                    teclado.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.MEDIA_PLAY_PAUSE);
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PLAY_PAUSE);
                 }
                 else if (recebido == comando[8]) {
-                    teclado.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.MEDIA_NEXT_TRACK);
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.MEDIA_NEXT_TRACK);
                 }
                 else if (recebido == comando[9]) {
-                    teclado.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.MEDIA_PREV_TRACK);
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PREV_TRACK);
                 }
                 else if (recebido == comando[10]) {
-                    teclado.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.F11);                   
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.F11);                   
                 }
                 else if (recebido == comando[11]) {
-                    System.Diagnostics.Process.Start("shutdown.exe", "-h -t 0");
+                    System.Diagnostics.Process.Start("shutdown.exe", "-h -t 0");               
                 }
                 else if (recebido == comando[12]) {
-                    System.Diagnostics.Process.Start("shutdown.exe", "-i -t 0");
+                    System.Diagnostics.Process.Start("shutdown.exe", "/s /t 0");
+                }
+                else if (recebido == comando[13]) {
+                    //Mudar monitor (projetar), a cada ver pressionado muda uma vez
+                    //Atalho Windows + P
+                    teclado.Keyboard.ModifiedKeyStroke(VirtualKeyCode.LWIN, VirtualKeyCode.VK_P);
+                    //1 segundo para o Windows o menu
+                    Thread.Sleep(1000);
+                    //Seta para baixo
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.DOWN);
+                    //Enter para selecionar a proxima opção de projeção
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.RETURN);
+                    //Esc para sumir o menu
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.ESCAPE);
                 }
             }
         }
@@ -197,10 +210,6 @@ namespace IrReceiver {
         private void Form1_SizeChanged(object sender, EventArgs e) {
             if (FormWindowState.Minimized == this.WindowState)
                 this.ShowInTaskbar = false; 
-        }
-
-        private void label3_Click(object sender, EventArgs e) {
-
         }
 
         private void btnConfigurar_Click(object sender, EventArgs e) {
@@ -229,8 +238,9 @@ namespace IrReceiver {
             comando[8] = Properties.Settings.Default.medianext;
             comando[9] = Properties.Settings.Default.mediaprevious;
             comando[10] = Properties.Settings.Default.fullscreen;
-            comando[11] = Properties.Settings.Default.fullscreen;
-            comando[12] = Properties.Settings.Default.fullscreen;
+            comando[11] = Properties.Settings.Default.hibernate;
+            comando[12] = Properties.Settings.Default.shutdown;
+            comando[13] = Properties.Settings.Default.project;
         }
 
         //Inicia o software com o windows

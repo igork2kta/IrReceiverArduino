@@ -90,6 +90,12 @@ namespace IrReceiver {
             Properties.Settings.Default.shutdown = recebido;
             Properties.Settings.Default.Save();
         }
+
+        private void btnProjetar_Click(object sender, EventArgs e) {
+            janela.ShowDialog();
+            Properties.Settings.Default.project = recebido;
+            Properties.Settings.Default.Save();
+        }
         //Recebe o valor na porta serial
         private void serialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e) {
             recebido = Convert.ToString(serialPort1.ReadExisting());
@@ -99,16 +105,30 @@ namespace IrReceiver {
             }
         }
 
+
+        private void btnRstConfig_Click(object sender, EventArgs e) {
+
+            if (MessageBox.Show("Tem certeza de que deseja resetar todas as configurações?", "Confirmação!", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes) {
+                Properties.Settings.Default.volumeup = "";
+                Properties.Settings.Default.volumedown = "";
+                Properties.Settings.Default.mute = "";
+                Properties.Settings.Default.leftarrow = "";
+                Properties.Settings.Default.rightarrow = "";
+                Properties.Settings.Default.downarrow = "";
+                Properties.Settings.Default.uparrow = "";
+                Properties.Settings.Default.playpause = "";
+                Properties.Settings.Default.medianext = "";
+                Properties.Settings.Default.mediaprevious = "";
+                Properties.Settings.Default.fullscreen = "";
+                Properties.Settings.Default.hibernate = "";
+                Properties.Settings.Default.shutdown = "";
+                Properties.Settings.Default.project = "";
+                Properties.Settings.Default.Save();
+            }
+        }
+
         private void Form2_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
             serialPort1.Close();
-        }
-
-        private void label5_Click(object sender, EventArgs e) {
-
-        }
-
-        private void Form2_Load(object sender, EventArgs e) {
-
         }
     }
 }

@@ -54,6 +54,9 @@
             this.btnHibernar = new System.Windows.Forms.Button();
             this.btnDesligar = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label15 = new System.Windows.Forms.Label();
+            this.btnProjetar = new System.Windows.Forms.Button();
+            this.btnRstConfig = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // bntVolumeUp
@@ -225,7 +228,6 @@
             this.label5.Size = new System.Drawing.Size(77, 14);
             this.label5.TabIndex = 17;
             this.label5.Text = "Play/Pause";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label6
             // 
@@ -358,11 +360,52 @@
             this.btnDesligar.UseVisualStyleBackColor = false;
             this.btnDesligar.Click += new System.EventHandler(this.btnDesligar_Click);
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(29, 417);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(58, 14);
+            this.label15.TabIndex = 27;
+            this.label15.Text = "Projetar";
+            // 
+            // btnProjetar
+            // 
+            this.btnProjetar.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnProjetar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProjetar.Location = new System.Drawing.Point(188, 413);
+            this.btnProjetar.Name = "btnProjetar";
+            this.btnProjetar.Size = new System.Drawing.Size(75, 23);
+            this.btnProjetar.TabIndex = 28;
+            this.btnProjetar.Text = "Configurar";
+            this.btnProjetar.UseVisualStyleBackColor = false;
+            this.btnProjetar.Click += new System.EventHandler(this.btnProjetar_Click);
+            // 
+            // btnRstConfig
+            // 
+            this.btnRstConfig.AccessibleDescription = "";
+            this.btnRstConfig.BackColor = System.Drawing.Color.Transparent;
+            this.btnRstConfig.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnRstConfig.BackgroundImage")));
+            this.btnRstConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnRstConfig.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRstConfig.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.btnRstConfig.Location = new System.Drawing.Point(278, 443);
+            this.btnRstConfig.Name = "btnRstConfig";
+            this.btnRstConfig.Size = new System.Drawing.Size(24, 24);
+            this.btnRstConfig.TabIndex = 30;
+            this.toolTip1.SetToolTip(this.btnRstConfig, "Resetar as configurações");
+            this.btnRstConfig.UseVisualStyleBackColor = false;
+            this.btnRstConfig.Click += new System.EventHandler(this.btnRstConfig_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(304, 421);
+            this.ClientSize = new System.Drawing.Size(304, 470);
+            this.Controls.Add(this.btnRstConfig);
+            this.Controls.Add(this.btnProjetar);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.btnDesligar);
             this.Controls.Add(this.btnHibernar);
             this.Controls.Add(this.label14);
@@ -396,7 +439,6 @@
             this.MinimizeBox = false;
             this.Name = "Form2";
             this.Text = "Configurar Comandos";
-            this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -433,5 +475,8 @@
         private System.Windows.Forms.Button btnHibernar;
         private System.Windows.Forms.Button btnDesligar;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button btnProjetar;
+        private System.Windows.Forms.Button btnRstConfig;
     }
 }
