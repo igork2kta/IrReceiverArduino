@@ -13,5 +13,11 @@ namespace IrReceiver {
         public Form3() {
             InitializeComponent();
         }
+
+        private void Form3_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e) {
+            if (e.KeyValue.Equals(27)) { //ESC
+                this.Close();
+            }
+        }
     }
 }

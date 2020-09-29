@@ -130,5 +130,11 @@ namespace IrReceiver {
         private void Form2_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
             serialPort1.Close();
         }
+
+        private void Form2_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyValue.Equals(27)){ //ESC
+                this.Close();
+            }
+        }
     }
 }

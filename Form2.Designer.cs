@@ -54,9 +54,9 @@
             this.btnHibernar = new System.Windows.Forms.Button();
             this.btnDesligar = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnRstConfig = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.btnProjetar = new System.Windows.Forms.Button();
-            this.btnRstConfig = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // bntVolumeUp
@@ -360,6 +360,22 @@
             this.btnDesligar.UseVisualStyleBackColor = false;
             this.btnDesligar.Click += new System.EventHandler(this.btnDesligar_Click);
             // 
+            // btnRstConfig
+            // 
+            this.btnRstConfig.AccessibleDescription = "";
+            this.btnRstConfig.BackColor = System.Drawing.Color.Transparent;
+            this.btnRstConfig.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnRstConfig.BackgroundImage")));
+            this.btnRstConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnRstConfig.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRstConfig.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.btnRstConfig.Location = new System.Drawing.Point(278, 443);
+            this.btnRstConfig.Name = "btnRstConfig";
+            this.btnRstConfig.Size = new System.Drawing.Size(24, 24);
+            this.btnRstConfig.TabIndex = 30;
+            this.toolTip1.SetToolTip(this.btnRstConfig, "Resetar as configurações");
+            this.btnRstConfig.UseVisualStyleBackColor = false;
+            this.btnRstConfig.Click += new System.EventHandler(this.btnRstConfig_Click);
+            // 
             // label15
             // 
             this.label15.AutoSize = true;
@@ -381,22 +397,6 @@
             this.btnProjetar.Text = "Configurar";
             this.btnProjetar.UseVisualStyleBackColor = false;
             this.btnProjetar.Click += new System.EventHandler(this.btnProjetar_Click);
-            // 
-            // btnRstConfig
-            // 
-            this.btnRstConfig.AccessibleDescription = "";
-            this.btnRstConfig.BackColor = System.Drawing.Color.Transparent;
-            this.btnRstConfig.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnRstConfig.BackgroundImage")));
-            this.btnRstConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnRstConfig.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRstConfig.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.btnRstConfig.Location = new System.Drawing.Point(278, 443);
-            this.btnRstConfig.Name = "btnRstConfig";
-            this.btnRstConfig.Size = new System.Drawing.Size(24, 24);
-            this.btnRstConfig.TabIndex = 30;
-            this.toolTip1.SetToolTip(this.btnRstConfig, "Resetar as configurações");
-            this.btnRstConfig.UseVisualStyleBackColor = false;
-            this.btnRstConfig.Click += new System.EventHandler(this.btnRstConfig_Click);
             // 
             // Form2
             // 
@@ -435,10 +435,12 @@
             this.Controls.Add(this.bntVolumeUp);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form2";
             this.Text = "Configurar Comandos";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form2_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -69,7 +69,7 @@ namespace IrReceiver {
                     }
                 }
                 //Tempoa para a serial assimilar o que foi recebido
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
                 if (connected == true) {
                     notifyIcon1.ShowBalloonTip(2, "Conectado!", "Conectado a " + cboPorts.SelectedItem, ToolTipIcon.Info);
                     lblStatus.Text = "Conectado a " + cboPorts.SelectedItem;
@@ -101,16 +101,17 @@ namespace IrReceiver {
         }
         //Inicia a conexão com a porta serial
         private void btnIniciar_Click(object sender, EventArgs e) {
-            serialPort1.PortName = cboPorts.Text;
-            serialPort1.Open();
-            serialPort1.WriteLine("123;");
-            Thread.Sleep(3000);
-            if (connected == true) {
+                serialPort1.Close();
+                serialPort1.PortName = cboPorts.Text;
+                serialPort1.Open();
+                serialPort1.WriteLine("123;");
+                Thread.Sleep(3000);
+                if (connected == true) {
                     notifyIcon1.ShowBalloonTip(2, "Conectado!", "Conectado a " + cboPorts.SelectedItem, ToolTipIcon.Info);
-                     lblStatus.Text = "Conectado a " + cboPorts.SelectedItem;
-                     lblStatus.ForeColor = Color.Green;
-                     this.WindowState = FormWindowState.Minimized;
-            }
+                    lblStatus.Text = "Conectado a " + cboPorts.SelectedItem;
+                    lblStatus.ForeColor = Color.Green;
+                    this.WindowState = FormWindowState.Minimized;
+                }
                 else {
                     serialPort1.Close();
                     MessageBox.Show("O dispositivo não foi" +
@@ -119,7 +120,6 @@ namespace IrReceiver {
                     lblStatus.Text = "Não conectado";
                     lblStatus.ForeColor = Color.Red;
                 }
-            
         }
         //Fecha a conexão com a porta serial
         private void btnParar_Click(object sender, EventArgs e) {
@@ -172,9 +172,11 @@ namespace IrReceiver {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.F11);                   
                 }
                 else if (recebido == comando[11]) {
-                    System.Diagnostics.Process.Start("shutdown.exe", "-h -t 0");               
+                    //Hibernar
+                    System.Diagnostics.Process.Start("shutdown.exe", "/h");               
                 }
                 else if (recebido == comando[12]) {
+                    //Desligar
                     System.Diagnostics.Process.Start("shutdown.exe", "/s /t 0");
                 }
                 else if (recebido == comando[13]) {
