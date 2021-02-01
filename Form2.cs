@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -7,94 +9,90 @@ namespace IrReceiver {
         string recebido;
         Form3 janela = new Form3();
 
-        public Form2(string porta) {
+        Comandos comandos = new Comandos();
+
+        public Form2(string porta, ref Comandos comandosReferencia) {
             InitializeComponent();
             serialPort1.PortName = porta;
             serialPort1.Open();
+            comandos = comandosReferencia;
+            
         }
 
         private void bntVolumeUp_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.volumeup = recebido;
-            Properties.Settings.Default.Save();
+            comandos.volumeUp = recebido;
         }
 
         private void bntVolumeDown_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.volumedown = recebido;
-            Properties.Settings.Default.Save();
+            comandos.volumeDown = recebido;
         }
 
         private void bntMute_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.mute = recebido;
-            Properties.Settings.Default.Save();
+            comandos.mute = recebido;
         }
 
         private void btnRightArrow_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.rightarrow = recebido;
-            Properties.Settings.Default.Save();
+            comandos.rightArrow = recebido;
         }
 
         private void btnLeftArrow_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.leftarrow = recebido;
-            Properties.Settings.Default.Save();
+            comandos.leftArrow = recebido;
         }
 
         private void btnUpArrow_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.uparrow = recebido;
-            Properties.Settings.Default.Save();
+            comandos.upArrow = recebido;
         }
 
         private void btnDownArrow_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.downarrow = recebido;
-            Properties.Settings.Default.Save();
+            comandos.downArrow = recebido;
+        }
+
+        private void btnEnter_Click(object sender, EventArgs e) {
+            janela.ShowDialog();
+            comandos.enter = recebido;
         }
 
         private void btnPlayPause_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.playpause = recebido;
-            Properties.Settings.Default.Save();
+            comandos.playPause = recebido;
         }
 
         private void btnMediaNext_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.medianext = recebido;
-            Properties.Settings.Default.Save();
+            comandos.mediaNext = recebido;
         }
 
         private void btnMediaPrevious_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.mediaprevious = recebido;
-            Properties.Settings.Default.Save();
+            comandos.mediaPrevious = recebido;
         }
 
         private void btnTelaCheia_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.fullscreen = recebido;
-            Properties.Settings.Default.Save();
+            comandos.fullScreen = recebido;
         }                
 
         private void btnHibernar_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.hibernate = recebido;
-            Properties.Settings.Default.Save();
+            comandos.hibernate = recebido;
         }
 
         private void btnDesligar_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.shutdown = recebido;
-            Properties.Settings.Default.Save();
+            comandos.shutdown = recebido;
         }
 
         private void btnProjetar_Click(object sender, EventArgs e) {
             janela.ShowDialog();
-            Properties.Settings.Default.project = recebido;
-            Properties.Settings.Default.Save();
+            comandos.project = recebido;
+            
         }
         //Recebe o valor na porta serial
         private void serialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e) {
@@ -109,25 +107,25 @@ namespace IrReceiver {
         private void btnRstConfig_Click(object sender, EventArgs e) {
 
             if (MessageBox.Show("Tem certeza de que deseja resetar todas as configurações?", "Confirmação!", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes) {
-                Properties.Settings.Default.volumeup = "";
-                Properties.Settings.Default.volumedown = "";
-                Properties.Settings.Default.mute = "";
-                Properties.Settings.Default.leftarrow = "";
-                Properties.Settings.Default.rightarrow = "";
-                Properties.Settings.Default.downarrow = "";
-                Properties.Settings.Default.uparrow = "";
-                Properties.Settings.Default.playpause = "";
-                Properties.Settings.Default.medianext = "";
-                Properties.Settings.Default.mediaprevious = "";
-                Properties.Settings.Default.fullscreen = "";
-                Properties.Settings.Default.hibernate = "";
-                Properties.Settings.Default.shutdown = "";
-                Properties.Settings.Default.project = "";
-                Properties.Settings.Default.Save();
+                comandos.rightArrow = "";
+                comandos.leftArrow = "";
+                comandos.upArrow = "";
+                comandos.downArrow = "";
+                comandos.volumeUp = "";
+                comandos.volumeDown = "";
+                comandos.mute = "";
+                comandos.playPause = "";
+                comandos.mediaNext = "";
+                comandos.mediaPrevious = "";
+                comandos.fullScreen = "";
+                comandos.hibernate = "";
+                comandos.shutdown = "";
+                comandos.project = "";
             }
         }
 
         private void Form2_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+            
             serialPort1.Close();
         }
 
@@ -136,5 +134,22 @@ namespace IrReceiver {
                 this.Close();
             }
         }
+
+        private void Form2_Load(object sender, EventArgs e) {
+
+        }
+
+        private void bntSalvar_Click(object sender, EventArgs e) {
+            //Salva os comandos em json
+            var json_serializado = JsonConvert.SerializeObject(comandos);
+            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\comandos.json", json_serializado);
+            this.Close();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e) {
+            this.Close();
+        }
+
+        
     }
 }

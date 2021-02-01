@@ -12,9 +12,11 @@ using System.Threading;
 using WindowsInput.Native;
 using WindowsInput;
 using Microsoft.Win32;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace IrReceiver {
- 
+    
     public partial class Form1 : Form {
         //Inicia o serviço de simulação de teclas
         InputSimulator teclado = new InputSimulator();
@@ -22,16 +24,26 @@ namespace IrReceiver {
         public string recebido;
         //Variável para verificação de dispositivo
         bool connected = false;
-        //Array que armazena os comandos
-        string[] comando = new string[14];
+        Comandos comandos = new Comandos();
+        
 
         public Form1() {
             InitializeComponent();
+            //comandos.Carregar();
+            
         }
 
         private void Form1_Load(object sender, EventArgs e) {
+            //Tenta carregar as configurações, caso não existam, emite uma mensagem
+            try {
+                var json = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\comandos.json");
+                comandos = JsonConvert.DeserializeObject<Comandos>(json);
+            }
+            catch {
+                MessageBox.Show("Clique no ícone de engrenagem no canto inferior direito para configurar um controle!", "Nenhuma configuração encontrada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            
             //Botões do tray icon
-            carregaComandos();
             var contextMenu = new ContextMenu();
             contextMenu.MenuItems.Add(new MenuItem("Iniciar conexão", btnIniciar_Click));
             contextMenu.MenuItems.Add(new MenuItem("Parar conexão", btnParar_Click));
@@ -58,7 +70,7 @@ namespace IrReceiver {
                         serialPort1.PortName = cboPorts.Text;
                         serialPort1.Open();
                         //Tempo para o arduino "pensar" após conectar
-                        Thread.Sleep(2000);
+                        Thread.Sleep(3000);
                         serialPort1.Write("123;");
                     }
                     catch (Exception ex) {
@@ -138,48 +150,52 @@ namespace IrReceiver {
                     connected = true;
             }
             else{
-                if (recebido == comando[0]) {
+                if (recebido == comandos.volumeUp) {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP);
                 }
-                else if (recebido == comando[1]) {
+                else if (recebido == comandos.volumeDown) {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.VOLUME_DOWN);
                 }
-                else if (recebido == comando[2]) {
+                else if (recebido == comandos.mute) {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.VOLUME_MUTE);
                 }
-                else if (recebido == comando[3]) {
+                else if (recebido == comandos.rightArrow) {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.RIGHT);
                 }
-                else if (recebido == comando[4]) {
+                else if (recebido == comandos.leftArrow) {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.LEFT);
                 }
-                else if (recebido == comando[5]) {
+                else if (recebido == comandos.upArrow) {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.UP);
                 }
-                else if (recebido == comando[6]) {
+                else if (recebido == comandos.downArrow) {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.DOWN);
                 }
-                else if (recebido == comando[7]) {
+                else if (recebido == comandos.enter) {
+                    //Não sei porque mas return é enter
+                    teclado.Keyboard.KeyPress(VirtualKeyCode.RETURN);
+                }
+                else if (recebido == comandos.playPause) {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PLAY_PAUSE);
                 }
-                else if (recebido == comando[8]) {
+                else if (recebido == comandos.mediaNext) {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.MEDIA_NEXT_TRACK);
                 }
-                else if (recebido == comando[9]) {
+                else if (recebido == comandos.mediaPrevious) {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PREV_TRACK);
                 }
-                else if (recebido == comando[10]) {
+                else if (recebido == comandos.mediaNext) {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.F11);                   
                 }
-                else if (recebido == comando[11]) {
+                else if (recebido == comandos.hibernate) {
                     //Hibernar
                     System.Diagnostics.Process.Start("shutdown.exe", "/h");               
                 }
-                else if (recebido == comando[12]) {
+                else if (recebido == comandos.shutdown) {
                     //Desligar
                     System.Diagnostics.Process.Start("shutdown.exe", "/s /t 0");
                 }
-                else if (recebido == comando[13]) {
+                else if (recebido == comandos.project) {
                     //Mudar monitor (projetar), a cada ver pressionado muda uma vez
                     //Atalho Windows + P
                     teclado.Keyboard.ModifiedKeyStroke(VirtualKeyCode.LWIN, VirtualKeyCode.VK_P);
@@ -217,33 +233,19 @@ namespace IrReceiver {
         private void btnConfigurar_Click(object sender, EventArgs e) {
             if (serialPort1.IsOpen) {
                 serialPort1.Close();
-                Form2 configuracoes = new Form2(cboPorts.Text);
+                //Chama o formulario de configurações de comandos e passa a classe comandos por referência
+                Form2 configuracoes = new Form2(cboPorts.Text, ref comandos);
                 configuracoes.ShowDialog();
                 configuracoes.Close();
                 serialPort1.Open();
-                carregaComandos();
+
             }
             else {
                 MessageBox.Show("Você precisa estar conectado a um sensor para configurar", "Não Conectado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
-        private void carregaComandos() {
-            comando[0] = Properties.Settings.Default.volumeup;
-            comando[1] = Properties.Settings.Default.volumedown;
-            comando[2] = Properties.Settings.Default.mute;
-            comando[3] = Properties.Settings.Default.rightarrow;
-            comando[4] = Properties.Settings.Default.leftarrow;
-            comando[5] = Properties.Settings.Default.uparrow;
-            comando[6] = Properties.Settings.Default.downarrow;
-            comando[7] = Properties.Settings.Default.playpause;
-            comando[8] = Properties.Settings.Default.medianext;
-            comando[9] = Properties.Settings.Default.mediaprevious;
-            comando[10] = Properties.Settings.Default.fullscreen;
-            comando[11] = Properties.Settings.Default.hibernate;
-            comando[12] = Properties.Settings.Default.shutdown;
-            comando[13] = Properties.Settings.Default.project;
-        }
+        
 
         //Inicia o software com o windows
         private void cbIniciarComWindows_CheckedChanged(object sender, EventArgs e) {

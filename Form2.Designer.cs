@@ -57,6 +57,10 @@
             this.btnRstConfig = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.btnProjetar = new System.Windows.Forms.Button();
+            this.bntSalvar = new System.Windows.Forms.Button();
+            this.btnCancelar = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.btnEnter = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // bntVolumeUp
@@ -147,7 +151,7 @@
             // 
             this.btnPlayPause.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.btnPlayPause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPlayPause.Location = new System.Drawing.Point(188, 240);
+            this.btnPlayPause.Location = new System.Drawing.Point(188, 270);
             this.btnPlayPause.Name = "btnPlayPause";
             this.btnPlayPause.Size = new System.Drawing.Size(75, 23);
             this.btnPlayPause.TabIndex = 7;
@@ -159,7 +163,7 @@
             // 
             this.btnMediaNext.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.btnMediaNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMediaNext.Location = new System.Drawing.Point(188, 298);
+            this.btnMediaNext.Location = new System.Drawing.Point(188, 328);
             this.btnMediaNext.Name = "btnMediaNext";
             this.btnMediaNext.Size = new System.Drawing.Size(75, 23);
             this.btnMediaNext.TabIndex = 8;
@@ -171,7 +175,7 @@
             // 
             this.btnMediaPrevious.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.btnMediaPrevious.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMediaPrevious.Location = new System.Drawing.Point(188, 269);
+            this.btnMediaPrevious.Location = new System.Drawing.Point(188, 299);
             this.btnMediaPrevious.Name = "btnMediaPrevious";
             this.btnMediaPrevious.Size = new System.Drawing.Size(75, 23);
             this.btnMediaPrevious.TabIndex = 9;
@@ -203,7 +207,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(26, 216);
+            this.label3.Location = new System.Drawing.Point(25, 216);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(114, 14);
             this.label3.TabIndex = 13;
@@ -223,7 +227,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(26, 245);
+            this.label5.Location = new System.Drawing.Point(25, 275);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(77, 14);
             this.label5.TabIndex = 17;
@@ -233,7 +237,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(26, 158);
+            this.label6.Location = new System.Drawing.Point(25, 158);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(107, 14);
             this.label6.TabIndex = 16;
@@ -253,7 +257,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(26, 187);
+            this.label8.Location = new System.Drawing.Point(25, 187);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(133, 14);
             this.label8.TabIndex = 14;
@@ -263,7 +267,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(26, 274);
+            this.label9.Location = new System.Drawing.Point(25, 304);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(114, 14);
             this.label9.TabIndex = 19;
@@ -273,7 +277,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(25, 303);
+            this.label10.Location = new System.Drawing.Point(25, 333);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(114, 14);
             this.label10.TabIndex = 18;
@@ -297,7 +301,7 @@
             // 
             this.btnTelaCheia.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.btnTelaCheia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTelaCheia.Location = new System.Drawing.Point(188, 327);
+            this.btnTelaCheia.Location = new System.Drawing.Point(188, 357);
             this.btnTelaCheia.Name = "btnTelaCheia";
             this.btnTelaCheia.Size = new System.Drawing.Size(75, 23);
             this.btnTelaCheia.TabIndex = 21;
@@ -309,7 +313,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(26, 332);
+            this.label12.Location = new System.Drawing.Point(25, 362);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(72, 14);
             this.label12.TabIndex = 22;
@@ -319,7 +323,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(26, 361);
+            this.label13.Location = new System.Drawing.Point(25, 391);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(61, 14);
             this.label13.TabIndex = 23;
@@ -329,7 +333,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(26, 390);
+            this.label14.Location = new System.Drawing.Point(25, 420);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(58, 14);
             this.label14.TabIndex = 24;
@@ -339,7 +343,7 @@
             // 
             this.btnHibernar.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.btnHibernar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHibernar.Location = new System.Drawing.Point(188, 356);
+            this.btnHibernar.Location = new System.Drawing.Point(188, 386);
             this.btnHibernar.Name = "btnHibernar";
             this.btnHibernar.Size = new System.Drawing.Size(75, 23);
             this.btnHibernar.TabIndex = 25;
@@ -352,7 +356,7 @@
             // 
             this.btnDesligar.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.btnDesligar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDesligar.Location = new System.Drawing.Point(188, 385);
+            this.btnDesligar.Location = new System.Drawing.Point(188, 414);
             this.btnDesligar.Name = "btnDesligar";
             this.btnDesligar.Size = new System.Drawing.Size(75, 23);
             this.btnDesligar.TabIndex = 26;
@@ -368,7 +372,7 @@
             this.btnRstConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnRstConfig.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRstConfig.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.btnRstConfig.Location = new System.Drawing.Point(278, 443);
+            this.btnRstConfig.Location = new System.Drawing.Point(277, 482);
             this.btnRstConfig.Name = "btnRstConfig";
             this.btnRstConfig.Size = new System.Drawing.Size(24, 24);
             this.btnRstConfig.TabIndex = 30;
@@ -380,7 +384,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(29, 417);
+            this.label15.Location = new System.Drawing.Point(25, 446);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(58, 14);
             this.label15.TabIndex = 27;
@@ -390,7 +394,7 @@
             // 
             this.btnProjetar.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.btnProjetar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnProjetar.Location = new System.Drawing.Point(188, 413);
+            this.btnProjetar.Location = new System.Drawing.Point(188, 442);
             this.btnProjetar.Name = "btnProjetar";
             this.btnProjetar.Size = new System.Drawing.Size(75, 23);
             this.btnProjetar.TabIndex = 28;
@@ -398,11 +402,61 @@
             this.btnProjetar.UseVisualStyleBackColor = false;
             this.btnProjetar.Click += new System.EventHandler(this.btnProjetar_Click);
             // 
+            // bntSalvar
+            // 
+            this.bntSalvar.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.bntSalvar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bntSalvar.Location = new System.Drawing.Point(65, 483);
+            this.bntSalvar.Name = "bntSalvar";
+            this.bntSalvar.Size = new System.Drawing.Size(75, 23);
+            this.bntSalvar.TabIndex = 31;
+            this.bntSalvar.Text = "Salvar";
+            this.bntSalvar.UseVisualStyleBackColor = false;
+            this.bntSalvar.Click += new System.EventHandler(this.bntSalvar_Click);
+            // 
+            // btnCancelar
+            // 
+            this.btnCancelar.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelar.Location = new System.Drawing.Point(167, 483);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelar.TabIndex = 32;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = false;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(26, 245);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(41, 14);
+            this.label16.TabIndex = 33;
+            this.label16.Text = "Enter";
+            // 
+            // btnEnter
+            // 
+            this.btnEnter.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnEnter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEnter.Location = new System.Drawing.Point(188, 241);
+            this.btnEnter.Name = "btnEnter";
+            this.btnEnter.Size = new System.Drawing.Size(75, 23);
+            this.btnEnter.TabIndex = 34;
+            this.btnEnter.Text = "Configurar";
+            this.btnEnter.UseVisualStyleBackColor = false;
+            this.btnEnter.Click += new System.EventHandler(this.btnEnter_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(304, 470);
+            this.ClientSize = new System.Drawing.Size(304, 522);
+            this.Controls.Add(this.btnEnter);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.btnCancelar);
+            this.Controls.Add(this.bntSalvar);
             this.Controls.Add(this.btnRstConfig);
             this.Controls.Add(this.btnProjetar);
             this.Controls.Add(this.label15);
@@ -439,7 +493,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form2";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Configurar Comandos";
+            this.Load += new System.EventHandler(this.Form2_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form2_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -480,5 +536,9 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button btnProjetar;
         private System.Windows.Forms.Button btnRstConfig;
+        private System.Windows.Forms.Button bntSalvar;
+        private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button btnEnter;
     }
 }
