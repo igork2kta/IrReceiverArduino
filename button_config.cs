@@ -3,15 +3,16 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace IrReceiver {
-    public partial class Form2 : Form {
+    public partial class button_config : Form {
         string recebido;
-        Form3 janela = new Form3();
+        message_box janela = new message_box();
 
         Comandos comandos = new Comandos();
 
-        public Form2(string porta, ref Comandos comandosReferencia) {
+        public button_config(string porta, ref Comandos comandosReferencia) {
             InitializeComponent();
             serialPort1.PortName = porta;
             serialPort1.Open();
@@ -96,9 +97,10 @@ namespace IrReceiver {
         }
         //Recebe o valor na porta serial
         private void serialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e) {
+            Thread.Sleep(50);
             recebido = Convert.ToString(serialPort1.ReadExisting());
             
-            if (Application.OpenForms.OfType<Form3>().Count()>0) {
+            if (Application.OpenForms.OfType<message_box>().Count()>0) {
                 BeginInvoke((MethodInvoker)(() => { janela.Close(); }));
             }
         }

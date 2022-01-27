@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace IrReceiver {
-    public partial class Form3 : Form {
-        public Form3() {
+    public partial class message_box : Form {
+        public message_box() {
             InitializeComponent();
         }
 

@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 
 namespace IrReceiver {
     
-    public partial class Form1 : Form {
+    public partial class main : Form {
         //Inicia o serviço de simulação de teclas
         InputSimulator teclado = new InputSimulator();
         //String que armazena os dados recebidos
@@ -27,7 +27,7 @@ namespace IrReceiver {
         Comandos comandos = new Comandos();
         
 
-        public Form1() {
+        public main() {
             InitializeComponent();
             //comandos.Carregar();
             
@@ -70,7 +70,7 @@ namespace IrReceiver {
                         serialPort1.PortName = cboPorts.Text;
                         serialPort1.Open();
                         //Tempo para o arduino "pensar" após conectar
-                        Thread.Sleep(3000);
+                        Thread.Sleep(1000);
                         serialPort1.Write("123;");
                     }
                     catch (Exception ex) {
@@ -117,7 +117,7 @@ namespace IrReceiver {
                 serialPort1.PortName = cboPorts.Text;
                 serialPort1.Open();
                 serialPort1.WriteLine("123;");
-                Thread.Sleep(3000);
+                Thread.Sleep(1000);
                 if (connected == true) {
                     notifyIcon1.ShowBalloonTip(2, "Conectado!", "Conectado a " + cboPorts.SelectedItem, ToolTipIcon.Info);
                     lblStatus.Text = "Conectado a " + cboPorts.SelectedItem;
@@ -143,6 +143,7 @@ namespace IrReceiver {
 
         //Verifica os comandos recebidos
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e) {
+            Thread.Sleep(50);
             recebido = Convert.ToString(serialPort1.ReadExisting());
             //Verificação de conexão, se o arduino responder à mensagem, mantém a conexão
             if (connected == false) {
@@ -184,7 +185,7 @@ namespace IrReceiver {
                 else if (recebido == comandos.mediaPrevious) {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PREV_TRACK);
                 }
-                else if (recebido == comandos.mediaNext) {
+                else if (recebido == comandos.fullScreen) {
                     teclado.Keyboard.KeyPress(VirtualKeyCode.F11);                   
                 }
                 else if (recebido == comandos.hibernate) {
@@ -234,7 +235,7 @@ namespace IrReceiver {
             if (serialPort1.IsOpen) {
                 serialPort1.Close();
                 //Chama o formulario de configurações de comandos e passa a classe comandos por referência
-                Form2 configuracoes = new Form2(cboPorts.Text, ref comandos);
+                button_config configuracoes = new button_config(cboPorts.Text, ref comandos);
                 configuracoes.ShowDialog();
                 configuracoes.Close();
                 serialPort1.Open();

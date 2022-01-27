@@ -1,5 +1,5 @@
 ﻿namespace IrReceiver {
-    partial class Form1 {
+    partial class main {
         /// <summary>
         /// Variável de designer necessária.
         /// </summary>
@@ -24,7 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
             this.cboPorts = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
@@ -61,6 +61,7 @@
             // 
             // serialPort1
             // 
+            this.serialPort1.BaudRate = 115200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
             // btnUpdatePorts

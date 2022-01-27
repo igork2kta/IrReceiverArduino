@@ -1,5 +1,5 @@
 ﻿namespace IrReceiver {
-    partial class Form2 {
+    partial class button_config {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -24,7 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(button_config));
             this.bntVolumeUp = new System.Windows.Forms.Button();
             this.bntVolumeDown = new System.Windows.Forms.Button();
             this.bntMute = new System.Windows.Forms.Button();
@@ -285,6 +285,7 @@
             // 
             // serialPort1
             // 
+            this.serialPort1.BaudRate = 115200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
             // label11

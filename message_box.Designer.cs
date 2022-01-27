@@ -1,5 +1,5 @@
 ﻿namespace IrReceiver {
-    partial class Form3 {
+    partial class message_box {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -23,7 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(message_box));
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
