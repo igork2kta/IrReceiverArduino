@@ -19,7 +19,7 @@ namespace IrReceiver {
     
     public partial class main : Form {
         //Inicia o serviço de simulação de teclas
-        InputSimulator teclado = new InputSimulator();
+        readonly InputSimulator teclado = new InputSimulator();
         //String que armazena os dados recebidos
         public string recebido;
         //Variável para verificação de dispositivo
@@ -45,9 +45,9 @@ namespace IrReceiver {
             
             //Botões do tray icon
             var contextMenu = new ContextMenu();
-            contextMenu.MenuItems.Add(new MenuItem("Iniciar conexão", btnIniciar_Click));
-            contextMenu.MenuItems.Add(new MenuItem("Parar conexão", btnParar_Click));
-            contextMenu.MenuItems.Add(new MenuItem("Fechar", fechar));
+            contextMenu.MenuItems.Add(new MenuItem("Iniciar conexão", BtnIniciar_Click));
+            contextMenu.MenuItems.Add(new MenuItem("Parar conexão", BtnParar_Click));
+            contextMenu.MenuItems.Add(new MenuItem("Fechar", Fechar));
             notifyIcon1.ContextMenu = contextMenu;
 
             //Adiciona as portas seriais encontradas na lista
@@ -101,18 +101,18 @@ namespace IrReceiver {
         }
 
         //Botão fechar do tray icon
-        private void fechar(object sender, EventArgs e) {
+        private void Fechar(object sender, EventArgs e) {
             Application.Exit();
         }
 
         //Atualiza as portas seriais disponíveis
-        private void btnUpdatePorts_Click(object sender, EventArgs e) {
+        private void BtnUpdatePorts_Click(object sender, EventArgs e) {
             cboPorts.Items.Clear();
             string[] ports = SerialPort.GetPortNames();
             cboPorts.Items.AddRange(ports);
         }
         //Inicia a conexão com a porta serial
-        private void btnIniciar_Click(object sender, EventArgs e) {
+        private void BtnIniciar_Click(object sender, EventArgs e) {
                 serialPort1.Close();
                 serialPort1.PortName = cboPorts.Text;
                 serialPort1.Open();
@@ -134,7 +134,7 @@ namespace IrReceiver {
                 }
         }
         //Fecha a conexão com a porta serial
-        private void btnParar_Click(object sender, EventArgs e) {
+        private void BtnParar_Click(object sender, EventArgs e) {
             serialPort1.Close();
             connected = false;
             lblStatus.Text = "Não conectado";
@@ -142,7 +142,7 @@ namespace IrReceiver {
         }
 
         //Verifica os comandos recebidos
-        private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e) {
+        private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e) {
             Thread.Sleep(50);
             recebido = Convert.ToString(serialPort1.ReadExisting());
             //Verificação de conexão, se o arduino responder à mensagem, mantém a conexão
@@ -212,17 +212,17 @@ namespace IrReceiver {
             }
         }
                   
-        private void cbIniciarAutomaticamente_CheckedChanged(object sender, EventArgs e) {
+        private void CbIniciarAutomaticamente_CheckedChanged(object sender, EventArgs e) {
             Properties.Settings.Default.cbIniciarAutomaticamente = cbIniciarAutomaticamente.Checked;
             Properties.Settings.Default.Save();
         }
 
-        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e) {
+        private void NotifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e) {
             this.WindowState = FormWindowState.Normal;
             this.ShowInTaskbar = true;
         }
 
-        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e) {
+        private void NotifyIcon1_BalloonTipClicked(object sender, EventArgs e) {
             this.WindowState = FormWindowState.Normal;
             this.ShowInTaskbar = true;
         }
@@ -231,7 +231,7 @@ namespace IrReceiver {
                 this.ShowInTaskbar = false; 
         }
 
-        private void btnConfigurar_Click(object sender, EventArgs e) {
+        private void BtnConfigurar_Click(object sender, EventArgs e) {
             if (serialPort1.IsOpen) {
                 serialPort1.Close();
                 //Chama o formulario de configurações de comandos e passa a classe comandos por referência
@@ -249,7 +249,7 @@ namespace IrReceiver {
         
 
         //Inicia o software com o windows
-        private void cbIniciarComWindows_CheckedChanged(object sender, EventArgs e) {
+        private void CbIniciarComWindows_CheckedChanged(object sender, EventArgs e) {
             Properties.Settings.Default.cbAutoStart = cbIniciarComWindows.Checked;
             Properties.Settings.Default.Save();
             if (cbIniciarComWindows.Checked == true) {

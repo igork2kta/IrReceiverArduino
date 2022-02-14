@@ -62,7 +62,7 @@
             // serialPort1
             // 
             this.serialPort1.BaudRate = 115200;
-            this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
+            this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPort1_DataReceived);
             // 
             // btnUpdatePorts
             // 
@@ -72,7 +72,7 @@
             this.btnUpdatePorts.TabIndex = 3;
             this.btnUpdatePorts.Text = "Atualizar";
             this.btnUpdatePorts.UseVisualStyleBackColor = true;
-            this.btnUpdatePorts.Click += new System.EventHandler(this.btnUpdatePorts_Click);
+            this.btnUpdatePorts.Click += new System.EventHandler(this.BtnUpdatePorts_Click);
             // 
             // btnIniciar
             // 
@@ -82,7 +82,7 @@
             this.btnIniciar.TabIndex = 4;
             this.btnIniciar.Text = "Iniciar";
             this.btnIniciar.UseVisualStyleBackColor = true;
-            this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
+            this.btnIniciar.Click += new System.EventHandler(this.BtnIniciar_Click);
             // 
             // btnParar
             // 
@@ -92,7 +92,7 @@
             this.btnParar.TabIndex = 5;
             this.btnParar.Text = "Parar";
             this.btnParar.UseVisualStyleBackColor = true;
-            this.btnParar.Click += new System.EventHandler(this.btnParar_Click);
+            this.btnParar.Click += new System.EventHandler(this.BtnParar_Click);
             // 
             // label2
             // 
@@ -113,15 +113,15 @@
             this.cbIniciarAutomaticamente.TabIndex = 7;
             this.cbIniciarAutomaticamente.Text = "Iniciar Conexão Automaticamente";
             this.cbIniciarAutomaticamente.UseVisualStyleBackColor = true;
-            this.cbIniciarAutomaticamente.CheckedChanged += new System.EventHandler(this.cbIniciarAutomaticamente_CheckedChanged);
+            this.cbIniciarAutomaticamente.CheckedChanged += new System.EventHandler(this.CbIniciarAutomaticamente_CheckedChanged);
             // 
             // notifyIcon1
             // 
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
             this.notifyIcon1.Text = "Receptor Infravermelho";
             this.notifyIcon1.Visible = true;
-            this.notifyIcon1.BalloonTipClicked += new System.EventHandler(this.notifyIcon1_BalloonTipClicked);
-            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            this.notifyIcon1.BalloonTipClicked += new System.EventHandler(this.NotifyIcon1_BalloonTipClicked);
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.NotifyIcon1_MouseDoubleClick);
             // 
             // label3
             // 
@@ -154,7 +154,7 @@
             this.btnConfigurar.Size = new System.Drawing.Size(24, 24);
             this.btnConfigurar.TabIndex = 10;
             this.btnConfigurar.UseVisualStyleBackColor = false;
-            this.btnConfigurar.Click += new System.EventHandler(this.btnConfigurar_Click);
+            this.btnConfigurar.Click += new System.EventHandler(this.BtnConfigurar_Click);
             // 
             // cbIniciarComWindows
             // 
@@ -165,7 +165,7 @@
             this.cbIniciarComWindows.TabIndex = 11;
             this.cbIniciarComWindows.Text = "Iniciar com o Windows";
             this.cbIniciarComWindows.UseVisualStyleBackColor = true;
-            this.cbIniciarComWindows.CheckedChanged += new System.EventHandler(this.cbIniciarComWindows_CheckedChanged);
+            this.cbIniciarComWindows.CheckedChanged += new System.EventHandler(this.CbIniciarComWindows_CheckedChanged);
             // 
             // Form1
             // 
