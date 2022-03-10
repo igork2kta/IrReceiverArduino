@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="IrReceiver.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="cbIniciarAutomaticamente" Type="System.Boolean" Scope="User">
+    <Setting Name="cbConectarAutomaticamente" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="cbAutoStart" Type="System.Boolean" Scope="User">

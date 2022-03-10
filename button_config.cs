@@ -143,8 +143,7 @@ namespace IrReceiver {
 
         private void bntSalvar_Click(object sender, EventArgs e) {
             //Salva os comandos em json
-            var json_serializado = JsonConvert.SerializeObject(comandos);
-            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\comandos.json", json_serializado);
+            comandos.SalvarComandos();
             this.Close();
         }
 

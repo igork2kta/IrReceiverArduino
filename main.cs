@@ -14,35 +14,36 @@ using WindowsInput;
 using Microsoft.Win32;
 using System.IO;
 using Newtonsoft.Json;
+using System.Runtime.InteropServices;
 
 namespace IrReceiver {
     
     public partial class main : Form {
+        
         //Inicia o serviço de simulação de teclas
         readonly InputSimulator teclado = new InputSimulator();
         //String que armazena os dados recebidos
         public string recebido;
         //Variável para verificação de dispositivo
         bool connected = false;
+        //Classe que armazena os codigos dos comandos
         Comandos comandos = new Comandos();
         
-
         public main() {
             InitializeComponent();
-            //comandos.Carregar();
-            
         }
 
         private void Form1_Load(object sender, EventArgs e) {
-            //Tenta carregar as configurações, caso não existam, emite uma mensagem
-            try {
-                var json = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\comandos.json");
-                comandos = JsonConvert.DeserializeObject<Comandos>(json);
-            }
-            catch {
-                MessageBox.Show("Clique no ícone de engrenagem no canto inferior direito para configurar um controle!", "Nenhuma configuração encontrada", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
             
+            //Tenta carregar as configurações, caso não existam, emite uma mensagem
+            try{
+                comandos = comandos.CarregarComandos();
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("Configure seu controle para começar a usar!", "Seja bem vindo!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
             //Botões do tray icon
             var contextMenu = new ContextMenu();
             contextMenu.MenuItems.Add(new MenuItem("Iniciar conexão", BtnIniciar_Click));
@@ -53,11 +54,25 @@ namespace IrReceiver {
             //Adiciona as portas seriais encontradas na lista
             string[] ports = SerialPort.GetPortNames();
             cboPorts.Items.AddRange(ports);
-            cbIniciarAutomaticamente.Checked = Properties.Settings.Default.cbIniciarAutomaticamente;
+            //Verifica os valores para os campos Conectar automaticamente e Iniciar com o windows
+            cbConectarAutomaticamente.Checked = Properties.Settings.Default.cbConectarAutomaticamente;
             cbIniciarComWindows.Checked = Properties.Settings.Default.cbAutoStart;
-            if (cbIniciarAutomaticamente.Checked == true) {
+
+            if (cbConectarAutomaticamente.Checked == true) {
+
+                //Tenta conectar automaticamente na porta utilizada na ultima conexão
+                try {
+                    if (comandos.ultimaPortaConectada != null && comandos.ultimaPortaConectada != "")
+                    {
+                        cboPorts.SelectedItem = comandos.ultimaPortaConectada;
+                        Conectar();
+                        if (connected) return;
+                    }
+                }
+                catch { }
+
                 if (cboPorts.Items.Count == 0) {
-                    //Caso não haja nada conectado na serial
+                    //Caso não seja encontrado nada na serial
                     MessageBox.Show("Nenhum dispositivo encontrado.", "Aviso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     lblStatus.Text = "Não conectado";
                     lblStatus.ForeColor = Color.Red;
@@ -66,35 +81,18 @@ namespace IrReceiver {
                     try {
                         if (connected == true) break;
                         if (serialPort1.IsOpen) serialPort1.Close();
+
                         cboPorts.SelectedIndex = i;
-                        serialPort1.PortName = cboPorts.Text;
-                        serialPort1.Open();
-                        //Tempo para o arduino "pensar" após conectar
-                        Thread.Sleep(1000);
-                        serialPort1.Write("123;");
+
+                        bool maisTentativas = i == (cboPorts.Items.Count - 1) ? false : true;
+                        Conectar(maisTentativas);
+
                     }
                     catch (Exception ex) {
                         MessageBox.Show(ex.Message, "Aviso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         //Seta o status como não conectado
-                        lblStatus.Text = "Não conectado";
-                        lblStatus.ForeColor = Color.Red;
+                        Desconectar();
                     }
-                }
-                //Tempoa para a serial assimilar o que foi recebido
-                Thread.Sleep(500);
-                if (connected == true) {
-                    notifyIcon1.ShowBalloonTip(2, "Conectado!", "Conectado a " + cboPorts.SelectedItem, ToolTipIcon.Info);
-                    lblStatus.Text = "Conectado a " + cboPorts.SelectedItem;
-                    lblStatus.ForeColor = Color.Green;
-                    this.WindowState = FormWindowState.Minimized;
-                }
-                else {
-                    serialPort1.Close();
-                    MessageBox.Show("O dispositivo não foi" +
-                       " identificado.", "Aviso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //Seta o status como não conectado
-                    lblStatus.Text = "Não conectado";
-                    lblStatus.ForeColor = Color.Red;
                 }
 
             }
@@ -113,107 +111,139 @@ namespace IrReceiver {
         }
         //Inicia a conexão com a porta serial
         private void BtnIniciar_Click(object sender, EventArgs e) {
-                serialPort1.Close();
-                serialPort1.PortName = cboPorts.Text;
-                serialPort1.Open();
-                serialPort1.WriteLine("123;");
-                Thread.Sleep(1000);
-                if (connected == true) {
-                    notifyIcon1.ShowBalloonTip(2, "Conectado!", "Conectado a " + cboPorts.SelectedItem, ToolTipIcon.Info);
-                    lblStatus.Text = "Conectado a " + cboPorts.SelectedItem;
-                    lblStatus.ForeColor = Color.Green;
-                    this.WindowState = FormWindowState.Minimized;
-                }
-                else {
-                    serialPort1.Close();
-                    MessageBox.Show("O dispositivo não foi" +
-                       " identificado.", "Aviso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //Seta o status como não conectado
-                    lblStatus.Text = "Não conectado";
-                    lblStatus.ForeColor = Color.Red;
-                }
+            Conectar();
         }
-        //Fecha a conexão com a porta serial
-        private void BtnParar_Click(object sender, EventArgs e) {
+
+        /// <summary>
+        /// Conecta com um dispositivo compatível
+        /// </summary>
+        /// <param name="maisTentativas"> Opcional, utiliza-se false quando deseja-se realizar mais tentativas antes de retornar erro </param>
+        private void Conectar([Optional] bool maisTentativas) {
+            Desconectar();
+            serialPort1.PortName = cboPorts.Text;
+
+            //Abre e cecha a porta, pois por algum motivo o arduino não responde na primeira conexão.
+            serialPort1.Open();
+            serialPort1.DiscardInBuffer(); //teste
             serialPort1.Close();
+            Thread.Sleep(1500);
+            //---------------------------------------------------------------------------------------
+
+            serialPort1.Open();
+            //Escreve "123;" na serial, caso o retorno seja "Sou eu!" mantém a conexão
+            serialPort1.WriteLine("123;");
+            string teste = serialPort1.ReadLine();
+
+            if (teste.Contains("Sou eu!"))
+            {   
+                connected = true;
+                notifyIcon1.ShowBalloonTip(2, "Conectado!", "Conectado a " + cboPorts.SelectedItem, ToolTipIcon.Info);
+                lblStatus.Text = "Conectado a " + cboPorts.SelectedItem;
+                lblStatus.ForeColor = Color.Green;
+                this.WindowState = FormWindowState.Minimized;
+
+                //Salva a ultima porta conectada
+                if (comandos.ultimaPortaConectada != cboPorts.Text)
+                {
+                    comandos.ultimaPortaConectada = cboPorts.Text;
+                    comandos.SalvarComandos();
+                }
+                
+            }
+            else if(!maisTentativas)
+            {
+                MessageBox.Show("O dispositivo não foi" +
+                   " identificado.", "Aviso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Desconectar();
+            }
+            
+        }
+
+        //Desconecta a porta serial
+        private void Desconectar(){
+
+            if (serialPort1.IsOpen) serialPort1.Close();
             connected = false;
+            //Seta o status como não conectado
             lblStatus.Text = "Não conectado";
             lblStatus.ForeColor = Color.Red;
         }
+        
 
+
+        //Fecha a conexão com a porta serial
+        private void BtnParar_Click(object sender, EventArgs e) {
+            Desconectar();
+        }
+       
         //Verifica os comandos recebidos
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e) {
             Thread.Sleep(50);
             recebido = Convert.ToString(serialPort1.ReadExisting());
-            //Verificação de conexão, se o arduino responder à mensagem, mantém a conexão
-            if (connected == false) {
-                if (recebido.Contains("Sou eu!"))
-                    connected = true;
+            
+            if (recebido == comandos.volumeUp) {
+                teclado.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP);
             }
-            else{
-                if (recebido == comandos.volumeUp) {
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP);
-                }
-                else if (recebido == comandos.volumeDown) {
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.VOLUME_DOWN);
-                }
-                else if (recebido == comandos.mute) {
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.VOLUME_MUTE);
-                }
-                else if (recebido == comandos.rightArrow) {
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.RIGHT);
-                }
-                else if (recebido == comandos.leftArrow) {
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.LEFT);
-                }
-                else if (recebido == comandos.upArrow) {
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.UP);
-                }
-                else if (recebido == comandos.downArrow) {
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.DOWN);
-                }
-                else if (recebido == comandos.enter) {
-                    //Não sei porque mas return é enter
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.RETURN);
-                }
-                else if (recebido == comandos.playPause) {
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PLAY_PAUSE);
-                }
-                else if (recebido == comandos.mediaNext) {
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.MEDIA_NEXT_TRACK);
-                }
-                else if (recebido == comandos.mediaPrevious) {
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PREV_TRACK);
-                }
-                else if (recebido == comandos.fullScreen) {
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.F11);                   
-                }
-                else if (recebido == comandos.hibernate) {
-                    //Hibernar
-                    System.Diagnostics.Process.Start("shutdown.exe", "/h");               
-                }
-                else if (recebido == comandos.shutdown) {
-                    //Desligar
-                    System.Diagnostics.Process.Start("shutdown.exe", "/s /t 0");
-                }
-                else if (recebido == comandos.project) {
-                    //Mudar monitor (projetar), a cada ver pressionado muda uma vez
-                    //Atalho Windows + P
-                    teclado.Keyboard.ModifiedKeyStroke(VirtualKeyCode.LWIN, VirtualKeyCode.VK_P);
-                    //1 segundo para o Windows o menu
-                    Thread.Sleep(1000);
-                    //Seta para baixo
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.DOWN);
-                    //Enter para selecionar a proxima opção de projeção
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.RETURN);
-                    //Esc para sumir o menu
-                    teclado.Keyboard.KeyPress(VirtualKeyCode.ESCAPE);
-                }
+            else if (recebido == comandos.volumeDown) {
+                teclado.Keyboard.KeyPress(VirtualKeyCode.VOLUME_DOWN);
             }
+            else if (recebido == comandos.mute) {
+                teclado.Keyboard.KeyPress(VirtualKeyCode.VOLUME_MUTE);
+            }
+            else if (recebido == comandos.rightArrow) {
+                teclado.Keyboard.KeyPress(VirtualKeyCode.RIGHT);
+            }
+            else if (recebido == comandos.leftArrow) {
+                teclado.Keyboard.KeyPress(VirtualKeyCode.LEFT);
+            }
+            else if (recebido == comandos.upArrow) {
+                teclado.Keyboard.KeyPress(VirtualKeyCode.UP);
+            }
+            else if (recebido == comandos.downArrow) {
+                teclado.Keyboard.KeyPress(VirtualKeyCode.DOWN);
+            }
+            else if (recebido == comandos.enter) {
+                //Não sei porque mas return é enter
+                teclado.Keyboard.KeyPress(VirtualKeyCode.RETURN);
+            }
+            else if (recebido == comandos.playPause) {
+                teclado.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PLAY_PAUSE);
+            }
+            else if (recebido == comandos.mediaNext) {
+                teclado.Keyboard.KeyPress(VirtualKeyCode.MEDIA_NEXT_TRACK);
+            }
+            else if (recebido == comandos.mediaPrevious) {
+                teclado.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PREV_TRACK);
+            }
+            else if (recebido == comandos.fullScreen) {
+                teclado.Keyboard.KeyPress(VirtualKeyCode.F11);                   
+            }
+            else if (recebido == comandos.hibernate) {
+                //Hibernar
+                System.Diagnostics.Process.Start("shutdown.exe", "/h");               
+            }
+            else if (recebido == comandos.shutdown) {
+                //Desligar
+                System.Diagnostics.Process.Start("shutdown.exe", "/s /t 0");
+            }
+            else if (recebido == comandos.project) {
+                //Mudar monitor (projetar), a cada ver pressionado muda uma vez
+                //Atalho Windows + P
+                teclado.Keyboard.ModifiedKeyStroke(VirtualKeyCode.LWIN, VirtualKeyCode.VK_P);
+                //1 segundo para o Windows o menu
+                Thread.Sleep(1000);
+                //Seta para baixo
+                teclado.Keyboard.KeyPress(VirtualKeyCode.DOWN);
+                //Enter para selecionar a proxima opção de projeção
+                teclado.Keyboard.KeyPress(VirtualKeyCode.RETURN);
+                //Esc para sumir o menu
+                teclado.Keyboard.KeyPress(VirtualKeyCode.ESCAPE);
+            }
+            
         }
                   
         private void CbIniciarAutomaticamente_CheckedChanged(object sender, EventArgs e) {
-            Properties.Settings.Default.cbIniciarAutomaticamente = cbIniciarAutomaticamente.Checked;
+            Properties.Settings.Default.cbConectarAutomaticamente = cbConectarAutomaticamente.Checked;
             Properties.Settings.Default.Save();
         }
 

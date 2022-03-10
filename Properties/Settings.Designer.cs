@@ -26,12 +26,12 @@ namespace IrReceiver.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool cbIniciarAutomaticamente {
+        public bool cbConectarAutomaticamente {
             get {
-                return ((bool)(this["cbIniciarAutomaticamente"]));
+                return ((bool)(this["cbConectarAutomaticamente"]));
             }
             set {
-                this["cbIniciarAutomaticamente"] = value;
+                this["cbConectarAutomaticamente"] = value;
             }
         }
         

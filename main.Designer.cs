@@ -32,7 +32,7 @@
             this.btnIniciar = new System.Windows.Forms.Button();
             this.btnParar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.cbIniciarAutomaticamente = new System.Windows.Forms.CheckBox();
+            this.cbConectarAutomaticamente = new System.Windows.Forms.CheckBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.label3 = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
@@ -104,16 +104,16 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Desenvolvido por Igor Pinheiro da Silva - igork2kta@hotmail.com";
             // 
-            // cbIniciarAutomaticamente
+            // cbConectarAutomaticamente
             // 
-            this.cbIniciarAutomaticamente.AutoSize = true;
-            this.cbIniciarAutomaticamente.Location = new System.Drawing.Point(119, 51);
-            this.cbIniciarAutomaticamente.Name = "cbIniciarAutomaticamente";
-            this.cbIniciarAutomaticamente.Size = new System.Drawing.Size(184, 17);
-            this.cbIniciarAutomaticamente.TabIndex = 7;
-            this.cbIniciarAutomaticamente.Text = "Iniciar Conexão Automaticamente";
-            this.cbIniciarAutomaticamente.UseVisualStyleBackColor = true;
-            this.cbIniciarAutomaticamente.CheckedChanged += new System.EventHandler(this.CbIniciarAutomaticamente_CheckedChanged);
+            this.cbConectarAutomaticamente.AutoSize = true;
+            this.cbConectarAutomaticamente.Location = new System.Drawing.Point(119, 51);
+            this.cbConectarAutomaticamente.Name = "cbConectarAutomaticamente";
+            this.cbConectarAutomaticamente.Size = new System.Drawing.Size(184, 17);
+            this.cbConectarAutomaticamente.TabIndex = 7;
+            this.cbConectarAutomaticamente.Text = "Iniciar Conexão Automaticamente";
+            this.cbConectarAutomaticamente.UseVisualStyleBackColor = true;
+            this.cbConectarAutomaticamente.CheckedChanged += new System.EventHandler(this.CbIniciarAutomaticamente_CheckedChanged);
             // 
             // notifyIcon1
             // 
@@ -167,7 +167,7 @@
             this.cbIniciarComWindows.UseVisualStyleBackColor = true;
             this.cbIniciarComWindows.CheckedChanged += new System.EventHandler(this.CbIniciarComWindows_CheckedChanged);
             // 
-            // Form1
+            // main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -176,7 +176,7 @@
             this.Controls.Add(this.btnConfigurar);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.cbIniciarAutomaticamente);
+            this.Controls.Add(this.cbConectarAutomaticamente);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnParar);
             this.Controls.Add(this.btnIniciar);
@@ -186,7 +186,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Receptor Infravermelho";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -200,18 +200,18 @@
 
         private System.Windows.Forms.ComboBox cboPorts;
         private System.Windows.Forms.Label label1;
-        private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Button btnUpdatePorts;
         private System.Windows.Forms.Button btnIniciar;
         private System.Windows.Forms.Button btnParar;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox cbIniciarAutomaticamente;
+        private System.Windows.Forms.CheckBox cbConectarAutomaticamente;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Button btnConfigurar;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox cbIniciarComWindows;
+        private System.IO.Ports.SerialPort serialPort1;
     }
 }
 

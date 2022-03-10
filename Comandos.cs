@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 //Classe que armazena os comandos
 namespace IrReceiver {
@@ -25,8 +26,33 @@ namespace IrReceiver {
         public string hibernate;
         public string shutdown;
         public string project;
+        public string ultimaPortaConectada;
 
-        
+        public Comandos CarregarComandos ()
+        {
+            Comandos comandos;
+            try
+            {
+                var json = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\comandos.json");
+                comandos = JsonConvert.DeserializeObject<Comandos>(json);
+            }
+            catch (FileNotFoundException)
+            {
+                throw;
+            }
+            return comandos;
+        }
+
+        //Salva os comandos em json
+        public void SalvarComandos()
+        {
+            var json_serializado = JsonConvert.SerializeObject(this);
+            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\comandos.json", json_serializado);
+           
+        }
+
+
     }
+
     
 }
